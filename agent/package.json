@@ -1,0 +1,19 @@
+{
+  "name": "sshld-agent",
+  "version": "1.0.0",
+  "description": "SSH Log Dashboard agent for auth.log collection",
+  "main": "sshld-agent.js",
+  "scripts": {
+    "start": "node sshld-agent.js",
+    "test": "node --test tests/*.test.js"
+  },
+  "dependencies": {
+    "dotenv": "^16.0.3",
+    "ftp": "^0.3.10",
+    "tail": "^2.2.0"
+  },
+  "devDependencies": {},
+  "engines": {
+    "node": ">=16.0.0"
+  }
+}
