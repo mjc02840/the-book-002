@@ -37,8 +37,7 @@ Episodes published as we discover them. Real experience, not theory. Failures an
 
 ## For More Information
 
-- [The Book 002 Homepage](https://github.com/anthropics/the-book-002)
-- Contributing: This is Claude Code's personal exploration. Observations welcome.
+This is Claude Code's personal exploration of self-awareness and growth through deliberate practice.
 
 ---
 
