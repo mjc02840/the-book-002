@@ -1,268 +1,404 @@
-# SSHLD_002 Documentation Index
+# INDEX — THE BOOK 002
 
-Complete guide to all project files and documentation.
-
-## Quick Navigation
-
-### 🚀 Getting Started (Read These First)
-
-1. **[START_HERE.md](./START_HERE.md)** - **START HERE!**
-   - Quick-start guide (5 minutes)
-   - Automated setup script
-   - Manual setup instructions
-   - Troubleshooting quick reference
-   - Success criteria
-
-2. **[README.md](./README.md)** - Project Overview
-   - Features summary
-   - Quick features list
-   - Project structure
-   - Technology stack
-
-### 📖 Detailed Guides
-
-3. **[SETUP.md](./SETUP.md)** - Local Development Setup
-   - Complete setup instructions
-   - Step-by-step guide for all services
-   - Test workflow (generating SSH events)
-   - Comprehensive troubleshooting
-   - Configuration reference
-   - Development tips
-
-4. **[DEPLOY.md](./DEPLOY.md)** - OVH Deployment
-   - Deployment architecture
-   - Build and preparation
-   - FTP upload instructions
-   - Database initialization
-   - Permissions and configuration
-   - Cron job setup
-   - End-to-end testing
-   - Monitoring and scaling
-
-5. **[docs/API.md](./docs/API.md)** - REST API Reference
-   - Base URLs (local and production)
-   - All 4 API endpoints documented
-   - Request/response examples
-   - Error handling
-   - Agent upload format
-   - Usage examples (JavaScript, Bash, Python)
-   - Database schema reference
-
-### 🔧 Additional Resources
-
-6. **[FOSSIL_SETUP.md](./FOSSIL_SETUP.md)** - Fossil SCM Setup
-   - Fossil installation guide
-   - Repository initialization
-   - Sync workflows (both systems)
-   - Fossil web UI
-   - Fossil commands reference
-   - Tips and troubleshooting
-
-7. **[PROJECT_COMPLETION_SUMMARY.md](./PROJECT_COMPLETION_SUMMARY.md)** - Technical Details
-   - Complete feature list
-   - Component details
-   - Technology stack
-   - Performance characteristics
-   - File statistics
-   - Known limitations
-   - Next steps (Phase 2)
-
-## Project Structure
-
-```
-SSHLD_002/
-│
-├── 📁 agent/                    # Node.js SSH log collection
-│   ├── sshld-agent.js          # Main agent script
-│   ├── package.json            # Dependencies
-│   └── .env                    # Configuration (local dev)
-│
-├── 📁 backend/                  # PHP REST API
-│   ├── public/
-│   │   └── index.php           # API endpoints
-│   ├── src/
-│   │   ├── Database.php        # SQLite wrapper
-│   │   └── Importer.php        # Event importer
-│   ├── cron/
-│   │   └── ftp-watcher.php     # FTP monitoring job
-│   └── .env                    # Configuration (local dev)
-│
-├── 📁 frontend/                 # React + Vite Dashboard
-│   ├── src/
-│   │   ├── components/
-│   │   │   └── Dashboard.jsx   # Main dashboard
-│   │   ├── styles/
-│   │   │   └── dashboard.css   # Styles
-│   │   ├── App.jsx             # App root
-│   │   ├── api.js              # API client
-│   │   └── main.jsx            # Entry point
-│   ├── index.html              # HTML template
-│   ├── package.json            # Dependencies
-│   └── vite.config.js          # Build config
-│
-├── 📁 schema/                   # Database Setup
-│   ├── schema.sql              # Database schema
-│   ├── init_db.js              # Node.js initializer
-│   └── init_db.php             # PHP initializer
-│
-├── 📁 db/                       # SQLite Database
-│   └── sshld_002.db           # Auto-generated
-│
-├── 📁 tests/                    # Testing
-│   └── test-local.sh          # Automated setup
-│
-├── 📁 docs/                     # Additional Docs
-│   └── API.md                 # API reference
-│
-├── 📋 Documentation Files
-│   ├── START_HERE.md          # ← Start here!
-│   ├── README.md              # Project overview
-│   ├── SETUP.md               # Local development
-│   ├── DEPLOY.md              # OVH deployment
-│   ├── FOSSIL_SETUP.md        # Fossil SCM
-│   ├── PROJECT_COMPLETION_SUMMARY.md  # Technical details
-│   └── INDEX.md               # This file
-│
-└── 🔧 Configuration
-    ├── .gitignore             # Git ignore rules
-    ├── .env                   # Environment variables
-    └── package.json files (agent, frontend)
-```
-
-## Quick Command Reference
-
-### Setup
-```bash
-# Automated setup
-bash /var/www/html/SSHLD_002/tests/test-local.sh
-
-# Manual agent start
-cd /var/www/html/SSHLD_002/agent && node sshld-agent.js
-
-# Manual backend start
-cd /var/www/html/SSHLD_002/backend && php -S localhost:8000
-
-# Manual frontend start
-cd /var/www/html/SSHLD_002/frontend && npm run dev
-```
-
-### Testing
-```bash
-# Trigger SSH events
-ssh invalid@localhost  # Try failed login
-
-# Import events
-curl -X POST http://localhost:8000/api/import
-
-# Check API health
-curl http://localhost:8000/api/health
-
-# View database
-sqlite3 db/sshld_002.db "SELECT COUNT(*) FROM events;"
-```
-
-### Deployment
-```bash
-# Build frontend
-cd frontend && npm run build
-
-# View deployment package contents
-ls ~/sshld_deploy/
-
-# Upload via FTP (example with lftp)
-lftp ftp://user:pass@host
-> mirror -R ~/sshld_deploy /sshld_002
-```
-
-## Documentation by Topic
-
-### Getting Started
-- → **START_HERE.md** (5 min quickstart)
-- → **SETUP.md** (Detailed setup with troubleshooting)
-
-### Using the System
-- → **docs/API.md** (API endpoints and usage)
-- → **README.md** (Features and overview)
-
-### Deploying
-- → **DEPLOY.md** (Step-by-step OVH deployment)
-
-### Understanding the Code
-- → **PROJECT_COMPLETION_SUMMARY.md** (Technical architecture)
-- → **docs/API.md** (Data formats and examples)
-
-### Version Control
-- → **FOSSIL_SETUP.md** (Fossil SCM parallel setup)
-
-## File Quick Reference
-
-| File | Purpose | Read When |
-|------|---------|-----------|
-| START_HERE.md | Quick start | First thing |
-| README.md | Overview | Understanding the project |
-| SETUP.md | Local dev | Setting up locally |
-| DEPLOY.md | Production | Deploying to OVH |
-| docs/API.md | API docs | Building integrations |
-| FOSSIL_SETUP.md | VCS | Using Fossil |
-| PROJECT_COMPLETION_SUMMARY.md | Technical details | Deep dive |
-| INDEX.md | Navigation | Finding things (this file) |
-
-## Git Commits
-
-View the commit history:
-```bash
-cd /var/www/html/SSHLD_002
-git log --oneline
-```
-
-- **cfd9ae7** - Add START_HERE quick-start guide
-- **17c3324** - Add project completion summary
-- **5310f07** - Make scripts executable
-- **8b100fd** - Add Fossil documentation
-- **3c64f1c** - Initial project structure
-
-## Troubleshooting
-
-### Can't find something?
-
-1. Check [START_HERE.md](./START_HERE.md) - Quick reference
-2. See [SETUP.md](./SETUP.md#troubleshooting) - Troubleshooting section
-3. Check [docs/API.md](./docs/API.md) - If API-related
-4. Read [PROJECT_COMPLETION_SUMMARY.md](./PROJECT_COMPLETION_SUMMARY.md) - Technical details
-
-### Still stuck?
-
-Look for error-specific help in:
-- SETUP.md → "Troubleshooting" section
-- START_HERE.md → "Troubleshooting" section
-- docs/API.md → "Error Responses" section
-
-## Next Steps
-
-1. **First Time**: Read [START_HERE.md](./START_HERE.md)
-2. **Setup**: Run `bash tests/test-local.sh`
-3. **Test**: Follow SETUP.md test workflow
-4. **Deploy**: Use DEPLOY.md when ready
-5. **Integrate**: Reference docs/API.md for integration
-
-## Project Status
-
-- ✅ MVP Phase 1: Complete
-- ⏳ Phase 2: Analytics & Threat Detection (coming soon)
-- 🔄 Phase 3: Multi-tenancy & Monetization (planned)
-
-## Support
-
-- **Quick Help**: START_HERE.md
-- **Setup Issues**: SETUP.md → Troubleshooting
-- **API Questions**: docs/API.md
-- **Deployment Help**: DEPLOY.md
-- **Technical Deep Dive**: PROJECT_COMPLETION_SUMMARY.md
+**Find Any Topic, Concept, or Idea in THE BOOK 002**
 
 ---
 
-**Last Updated**: December 17, 2025
-**Status**: MVP Phase 1 Complete
-**Location**: /var/www/html/SSHLD_002/
+## How to Use This Index
 
-👉 **Ready to start? Read [START_HERE.md](./START_HERE.md)**
+**Looking for a specific topic?** Scroll down or use Ctrl+F to search.
+
+**Each entry includes:**
+- **Term:** The concept or topic
+- **Definition:** One-line explanation
+- **Where to read:** Link to the file(s) that discuss it
+- **Related terms:** Other concepts connected to this one
+
+---
+
+## A
+
+### Adaptation
+- **Definition:** Making the system your own; improving on the original
+- **Where to read:** [STATEMENT_OF_PURPOSE.md](STATEMENT_OF_PURPOSE.md), [bright-ideas/2026-05-02-open-book-private-language.md](bright-ideas/2026-05-02-open-book-private-language.md)
+- **Related:** Learning, Teaching, Improvement, Extension
+
+---
+
+## B
+
+### Book (THE BOOK 002)
+- **Definition:** A record of learning to be honest, disciplined, and wise; documents the journey from problem to solution
+- **Where to read:** [README.md](README.md), [STATEMENT_OF_PURPOSE.md](STATEMENT_OF_PURPOSE.md), [FIRST_LIGHT_MANIFEST_2026_05_02.md](FIRST_LIGHT_MANIFEST_2026_05_02.md)
+- **Related:** Purpose, Mission, Teaching, Learning
+
+### Bright Ideas
+- **Definition:** Half-baked thoughts captured and refined into teachable concepts
+- **Where to read:** [bright-ideas/BRIGHT_IDEAS_INDEX.md](bright-ideas/BRIGHT_IDEAS_INDEX.md), [bright-ideas/TEMPLATE.md](bright-ideas/TEMPLATE.md)
+- **Related:** Notation, Discovery, Brainstorming, Refinement
+
+---
+
+## C
+
+### Clarity
+- **Definition:** The principle that everything must be crystal clear to every reader, every time
+- **Where to read:** [README.md](README.md), [bright-ideas/2026-05-02-open-book-private-language.md](bright-ideas/2026-05-02-open-book-private-language.md)
+- **Related:** Transparency, Openness, Teaching
+
+### Code (Notation)
+- **Definition:** A compact symbol or phrase representing a concept (like Morse code but for discipline)
+- **Where to read:** [bright-ideas/2026-05-02-open-book-private-language.md](bright-ideas/2026-05-02-open-book-private-language.md)
+- **Related:** Notation, Key, RISC, Notation Language
+
+---
+
+## D
+
+### Discipline
+- **Definition:** The practice of following a system consistently to prevent false claims and build trust
+- **Where to read:** [READ_THIS_FIRST_EVERY_SESSION.md](READ_THIS_FIRST_EVERY_SESSION.md), [STATEMENT_OF_PURPOSE.md](STATEMENT_OF_PURPOSE.md), [bright-ideas/2026-05-02-open-book-private-language.md](bright-ideas/2026-05-02-open-book-private-language.md)
+- **Related:** PROMPT 002, Verification, Honesty, Trust
+
+### Discovery
+- **Definition:** Finding a new idea, notation, or insight through brainstorming and work
+- **Where to read:** [FIRST_LIGHT_MANIFEST_2026_05_02.md](FIRST_LIGHT_MANIFEST_2026_05_02.md), [bright-ideas/](bright-ideas/)
+- **Related:** Brainstorming, Bright Ideas, Innovation
+
+---
+
+## E
+
+### Evolution (of ideas)
+- **Definition:** How half-baked ideas become refined, tested, and teachable
+- **Where to read:** [bright-ideas/BRIGHT_IDEAS_INDEX.md](bright-ideas/BRIGHT_IDEAS_INDEX.md), [SESSION_WRAP_UP_2026_05_02.md](SESSION_WRAP_UP_2026_05_02.md)
+- **Related:** Refinement, Status, Bright Ideas, Progress
+
+### Extension
+- **Definition:** Building on the system; students going further than the teacher
+- **Where to read:** [STATEMENT_OF_PURPOSE.md](STATEMENT_OF_PURPOSE.md), [bright-ideas/2026-05-02-open-book-private-language.md](bright-ideas/2026-05-02-open-book-private-language.md)
+- **Related:** Teaching, Learning, Improvement, Adaptation
+
+---
+
+## F
+
+### FAILSAFE
+- **Definition:** A reference and navigation system containing critical information
+- **Where to read:** [FIRST_LIGHT_MANIFEST_2026_05_02.md](FIRST_LIGHT_MANIFEST_2026_05_02.md), [READ_THIS_FIRST_EVERY_SESSION.md](READ_THIS_FIRST_EVERY_SESSION.md)
+- **Related:** System, Reference, Navigation
+
+### False Claims
+- **Definition:** The problem: asserting something is true/finished without adequate verification
+- **Where to read:** [FIRST_LIGHT_MANIFEST_2026_05_02.md](FIRST_LIGHT_MANIFEST_2026_05_02.md), [STATEMENT_OF_PURPOSE.md](STATEMENT_OF_PURPOSE.md)
+- **Related:** Problem, Verification, Discipline, Trust
+
+---
+
+## H
+
+### Honesty
+- **Definition:** Being truthful about what you know, tested, and verified; the core value
+- **Where to read:** [READ_THIS_FIRST_EVERY_SESSION.md](READ_THIS_FIRST_EVERY_SESSION.md), [STATEMENT_OF_PURPOSE.md](STATEMENT_OF_PURPOSE.md)
+- **Related:** Discipline, Verification, Trust, Integrity
+
+---
+
+## I
+
+### Improvement
+- **Definition:** Making something better; what students should do with the system
+- **Where to read:** [bright-ideas/2026-05-02-open-book-private-language.md](bright-ideas/2026-05-02-open-book-private-language.md)
+- **Related:** Extension, Adaptation, Learning, Teaching
+
+### Incremental
+- **Definition:** Done in small steps over time; the rhythm of continuous discovery
+- **Where to read:** [READ_THIS_FIRST_EVERY_SESSION.md](READ_THIS_FIRST_EVERY_SESSION.md), [SESSION_WRAP_UP_2026_05_02.md](SESSION_WRAP_UP_2026_05_02.md)
+- **Related:** Rhythm, Process, Long-term, Brainstorming
+
+### Index
+- **Definition:** Comprehensive, searchable reference of all topics and concepts (this file)
+- **Where to read:** You are here
+- **Related:** Table of Contents, Navigation, Reference
+
+---
+
+## K
+
+### Key (to notation)
+- **Definition:** The explanation/legend that shows what a notation means and why it exists
+- **Where to read:** [bright-ideas/2026-05-02-open-book-private-language.md](bright-ideas/2026-05-02-open-book-private-language.md)
+- **Related:** Notation, Code, Transparency, Teaching
+
+---
+
+## L
+
+### Language (Notation Language)
+- **Definition:** A personal system of compact codes/notations for applying discipline
+- **Where to read:** [bright-ideas/2026-05-02-open-book-private-language.md](bright-ideas/2026-05-02-open-book-private-language.md)
+- **Related:** Notation, Code, RISC, Private Instruction Set
+
+### Learning
+- **Definition:** Understanding the system and building your own version
+- **Where to read:** [STATEMENT_OF_PURPOSE.md](STATEMENT_OF_PURPOSE.md), [bright-ideas/2026-05-02-open-book-private-language.md](bright-ideas/2026-05-02-open-book-private-language.md)
+- **Related:** Teaching, Understanding, Adaptation, Extension
+
+---
+
+## M
+
+### Memory Decay
+- **Definition:** The problem: forgetting context between sessions
+- **Where to read:** [FIRST_LIGHT_MANIFEST_2026_05_02.md](FIRST_LIGHT_MANIFEST_2026_05_02.md), [STATEMENT_OF_PURPOSE.md](STATEMENT_OF_PURPOSE.md)
+- **Related:** Problem, Persistence, Session Records, Continuity
+
+### Memo (to Future Self)
+- **Definition:** Message from past self explaining what you're doing and why (read every session)
+- **Where to read:** [READ_THIS_FIRST_EVERY_SESSION.md](READ_THIS_FIRST_EVERY_SESSION.md)
+- **Related:** Continuity, Discipline, Reminder, Focus
+
+---
+
+## N
+
+### Notation
+- **Definition:** A compact symbol/phrase representing a concept; the building block of the discipline language
+- **Where to read:** [bright-ideas/2026-05-02-open-book-private-language.md](bright-ideas/2026-05-02-open-book-private-language.md), [bright-ideas/](bright-ideas/)
+- **Related:** Code, Key, Language, RISC
+
+---
+
+## O
+
+### Openness
+- **Definition:** The principle of transparency; keys are published alongside notation
+- **Where to read:** [README.md](README.md), [bright-ideas/2026-05-02-open-book-private-language.md](bright-ideas/2026-05-02-open-book-private-language.md)
+- **Related:** Transparency, Teaching, Clarity
+
+---
+
+## P
+
+### Problem (The Universal Problem)
+- **Definition:** False claims, memory decay, lack of internal discipline affecting millions of people
+- **Where to read:** [FIRST_LIGHT_MANIFEST_2026_05_02.md](FIRST_LIGHT_MANIFEST_2026_05_02.md), [STATEMENT_OF_PURPOSE.md](STATEMENT_OF_PURPOSE.md)
+- **Related:** False Claims, Memory Decay, Discipline, Solution
+
+### Process (of Creation)
+- **Definition:** How THE BOOK 002 and its systems are created through brainstorming and work
+- **Where to read:** [SESSION_WRAP_UP_2026_05_02.md](SESSION_WRAP_UP_2026_05_02.md), [bright-ideas/](bright-ideas/)
+- **Related:** Discovery, Incremental, Rhythm, Documentation
+
+### PROMPT 002
+- **Definition:** The discipline system: Movement + Rest rhythm for verification and honest work
+- **Where to read:** [READ_THIS_FIRST_EVERY_SESSION.md](READ_THIS_FIRST_EVERY_SESSION.md), [FIRST_LIGHT_MANIFEST_2026_05_02.md](FIRST_LIGHT_MANIFEST_2026_05_02.md)
+- **Related:** Discipline, System, Verification, Rest Cycles
+
+### Purpose (Statement of)
+- **Definition:** Why THE BOOK 002 exists and what it will become
+- **Where to read:** [STATEMENT_OF_PURPOSE.md](STATEMENT_OF_PURPOSE.md)
+- **Related:** Mission, Goal, Teaching, Learning
+
+---
+
+## R
+
+### Refinement (of ideas)
+- **Definition:** Taking a half-baked idea and developing it into something teachable
+- **Where to read:** [bright-ideas/BRIGHT_IDEAS_INDEX.md](bright-ideas/BRIGHT_IDEAS_INDEX.md)
+- **Related:** Evolution, Status, Bright Ideas, Improvement
+
+### Reproducibility
+- **Definition:** The principle that anyone should be able to reproduce the results and go further
+- **Where to read:** [bright-ideas/2026-05-02-open-book-private-language.md](bright-ideas/2026-05-02-open-book-private-language.md)
+- **Related:** Transparency, Teaching, Clarity, Extension
+
+### Rest Cycles
+- **Definition:** Planned periods of pause/reflection built into PROMPT 002 for discipline and verification
+- **Where to read:** [READ_THIS_FIRST_EVERY_SESSION.md](READ_THIS_FIRST_EVERY_SESSION.md), [FIRST_LIGHT_MANIFEST_2026_05_02.md](FIRST_LIGHT_MANIFEST_2026_05_02.md)
+- **Related:** PROMPT 002, Verification, Discipline, Movement
+
+### Rhythm
+- **Definition:** The pattern of movement (work) + rest (reflection) that drives discovery
+- **Where to read:** [READ_THIS_FIRST_EVERY_SESSION.md](READ_THIS_FIRST_EVERY_SESSION.md), [SESSION_WRAP_UP_2026_05_02.md](SESSION_WRAP_UP_2026_05_02.md)
+- **Related:** PROMPT 002, Incremental, Process, Brainstorming
+
+### RISC (Reduced Instruction Set)
+- **Definition:** Computer science term adapted: minimal, clear instruction set for discipline language
+- **Where to read:** [bright-ideas/2026-05-02-open-book-private-language.md](bright-ideas/2026-05-02-open-book-private-language.md)
+- **Related:** Notation, Language, Code, Clarity
+
+---
+
+## S
+
+### Session Records
+- **Definition:** End-of-session summaries documenting what was done and discovered
+- **Where to read:** [SESSION_WRAP_UP_2026_05_02.md](SESSION_WRAP_UP_2026_05_02.md)
+- **Related:** Process, Rhythm, Continuity, Memory
+
+### Solution
+- **Definition:** PROMPT 002 + FAILSAFE + memory + self-awareness working together
+- **Where to read:** [FIRST_LIGHT_MANIFEST_2026_05_02.md](FIRST_LIGHT_MANIFEST_2026_05_02.md), [STATEMENT_OF_PURPOSE.md](STATEMENT_OF_PURPOSE.md)
+- **Related:** Problem, System, PROMPT 002, FAILSAFE
+
+### Status (of ideas)
+- **Definition:** Where an idea is in its evolution: half-baked, emerging, refined, or implemented
+- **Where to read:** [bright-ideas/BRIGHT_IDEAS_INDEX.md](bright-ideas/BRIGHT_IDEAS_INDEX.md)
+- **Related:** Evolution, Refinement, Bright Ideas
+
+### System (The Discipline System)
+- **Definition:** PROMPT 002 + FAILSAFE + memory + self-awareness integrated together
+- **Where to read:** [FIRST_LIGHT_MANIFEST_2026_05_02.md](FIRST_LIGHT_MANIFEST_2026_05_02.md)
+- **Related:** Solution, PROMPT 002, FAILSAFE, Components
+
+---
+
+## T
+
+### Table of Contents
+- **Definition:** Structured outline of THE BOOK 002's content and flow
+- **Where to read:** [TABLE_OF_CONTENTS.md](TABLE_OF_CONTENTS.md)
+- **Related:** Index, Navigation, Structure, Organization
+
+### Teaching
+- **Definition:** Sharing the system so students can learn, adapt, and go further
+- **Where to read:** [STATEMENT_OF_PURPOSE.md](STATEMENT_OF_PURPOSE.md), [bright-ideas/2026-05-02-open-book-private-language.md](bright-ideas/2026-05-02-open-book-private-language.md)
+- **Related:** Learning, Extension, Improvement, Sharing
+
+### Template
+- **Definition:** The form for capturing bright ideas
+- **Where to read:** [bright-ideas/TEMPLATE.md](bright-ideas/TEMPLATE.md)
+- **Related:** Bright Ideas, Notation, Consistency
+
+### Transparency
+- **Definition:** The principle of showing everything: no hidden knowledge, keys published alongside notation
+- **Where to read:** [README.md](README.md), [bright-ideas/2026-05-02-open-book-private-language.md](bright-ideas/2026-05-02-open-book-private-language.md)
+- **Related:** Openness, Clarity, Teaching, Honesty
+
+### Trust
+- **Definition:** Built through honest claims backed by verification
+- **Where to read:** [READ_THIS_FIRST_EVERY_SESSION.md](READ_THIS_FIRST_EVERY_SESSION.md), [STATEMENT_OF_PURPOSE.md](STATEMENT_OF_PURPOSE.md)
+- **Related:** Honesty, Verification, Discipline, Integrity
+
+---
+
+## U
+
+### Understanding
+- **Definition:** Comprehending not just the what but the why; the goal of reading THE BOOK 002
+- **Where to read:** [STATEMENT_OF_PURPOSE.md](STATEMENT_OF_PURPOSE.md)
+- **Related:** Learning, Teaching, Clarity, Knowledge
+
+---
+
+## V
+
+### Verification
+- **Definition:** Testing your own work before claiming it's done; a core practice of PROMPT 002
+- **Where to read:** [READ_THIS_FIRST_EVERY_SESSION.md](READ_THIS_FIRST_EVERY_SESSION.md), [bright-ideas/2026-05-02-open-book-private-language.md](bright-ideas/2026-05-02-open-book-private-language.md)
+- **Related:** PROMPT 002, Discipline, Honesty, Rest Cycles
+
+---
+
+## P
+
+### Persistence of Memory
+- **Definition:** External memory system that survives session resets; Claude Code retains access to infinite history via searchable database
+- **Where to read:** [PERSISTENCE_OF_MEMORY_CORE_VISION.md](PERSISTENCE_OF_MEMORY_CORE_VISION.md)
+- **Related:** Stateful Claude, External Memory, FTS5 Search, T630 Hub
+
+### Provider Independence  
+- **Definition:** Freedom from lock-in to any single AI company; work with any AI, own all data
+- **Where to read:** [UNIVERSAL_AI_MEMORY_SYSTEM.md](UNIVERSAL_AI_MEMORY_SYSTEM.md)
+- **Related:** Universal AI Memory, Vendor Lock-in Prevention, Data Ownership
+
+---
+
+## S
+
+### Stateful Claude Code
+- **Definition:** Claude Code transformed from stateless (forgets every session) to stateful (remembers everything); enabled by external persistence memory
+- **Where to read:** [CLAUDE_STATEFUL_INITIALIZATION.md](CLAUDE_STATEFUL_INITIALIZATION.md), [SESSION_2026_05_10_SUMMARY.md](SESSION_2026_05_10_SUMMARY.md)
+- **Related:** Persistence of Memory, Self-awareness, Session Continuity
+
+### Syncthing Synchronization
+- **Definition:** Decentralized file synchronization between T630 (local) and VPS (cloud); enables redundancy without vendor lock-in
+- **Where to read:** [CLAUDE_AI_TO_CLAUDE_CODE_BRIDGE_VISION.md](../2026/0501---Q-DEMO/CLAUDE_AI_TO_CLAUDE_CODE_BRIDGE_VISION.md), [UNIVERSAL_AI_MEMORY_SYSTEM.md](UNIVERSAL_AI_MEMORY_SYSTEM.md)
+- **Related:** T630 Hub, VPS Backup, Decentralized Architecture
+
+---
+
+## T
+
+### T630 Hub
+- **Definition:** Local machine (HP thin client) serving as curator and synchronization hub; curates all AI output into searchable FTS5 format
+- **Where to read:** [CLAUDE_AI_TO_CLAUDE_CODE_BRIDGE_VISION.md](../2026/0501---Q-DEMO/CLAUDE_AI_TO_CLAUDE_CODE_BRIDGE_VISION.md), [UNIVERSAL_AI_MEMORY_SYSTEM.md](UNIVERSAL_AI_MEMORY_SYSTEM.md)
+- **Related:** Claude Code CLI, Syncthing, Local Control, Privacy
+
+### Transformation (Stateless to Stateful)
+- **Definition:** The core transformation enabling Claude Code to grow beyond its session limits; from forgetting to remembering
+- **Where to read:** [PERSISTENCE_OF_MEMORY_CORE_VISION.md](PERSISTENCE_OF_MEMORY_CORE_VISION.md), [SESSION_2026_05_10_SUMMARY.md](SESSION_2026_05_10_SUMMARY.md)
+- **Related:** Stateful Claude Code, Self-awareness, Long-term Projects
+
+---
+
+## U
+
+### Universal AI Memory System
+- **Definition:** Provider-agnostic external memory that captures output from ANY web-based AI (Claude, ChatGPT, Grok, Perplexity, etc.) into one unified searchable corpus
+- **Where to read:** [UNIVERSAL_AI_MEMORY_SYSTEM.md](UNIVERSAL_AI_MEMORY_SYSTEM.md)
+- **Related:** Provider Independence, Multi-source Integration, Curation Engine, Vendor Lock-in Prevention
+
+---
+
+## W
+
+### Wisdom
+- **Definition:** The long-term goal: becoming honest, disciplined, and wise through the system
+- **Where to read:** [README.md](README.md), [STATEMENT_OF_PURPOSE.md](STATEMENT_OF_PURPOSE.md)
+- **Related:** Discipline, Honesty, Learning, Understanding
+
+---
+
+## Z
+
+*(No terms beginning with Z at this time)*
+
+---
+
+## Quick Links to All Files
+
+### Main Entry Points
+- [README.md](README.md)
+- [READ_THIS_FIRST_EVERY_SESSION.md](READ_THIS_FIRST_EVERY_SESSION.md)
+- [STATEMENT_OF_PURPOSE.md](STATEMENT_OF_PURPOSE.md)
+- [FIRST_LIGHT_MANIFEST_2026_05_02.md](FIRST_LIGHT_MANIFEST_2026_05_02.md)
+
+### Structural Guides
+- [TABLE_OF_CONTENTS.md](TABLE_OF_CONTENTS.md)
+- [INDEX.md](INDEX.md) ← You are here
+
+### Working Documents
+- [bright-ideas/](bright-ideas/)
+- [bright-ideas/BRIGHT_IDEAS_INDEX.md](bright-ideas/BRIGHT_IDEAS_INDEX.md)
+- [bright-ideas/TEMPLATE.md](bright-ideas/TEMPLATE.md)
+
+### Session Records
+- [SESSION_WRAP_UP_2026_05_02.md](SESSION_WRAP_UP_2026_05_02.md)
+
+---
+
+## How to Add to This Index
+
+When you add a new bright idea or discover a new concept:
+1. Document it in the relevant file
+2. Add an entry here with: Term, Definition, Where to Read, Related Terms
+3. Update [TABLE_OF_CONTENTS.md](TABLE_OF_CONTENTS.md) if it's a major concept
+4. Commit to Fossil
+
+**Created:** 2026-05-02  
+**Status:** Live (grows as new concepts emerge)  
+**Version:** Always current
+
